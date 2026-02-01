@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap');
+        
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e3a8a;
+            --accent: #3b82f6;
+            --neon: #00f7ff;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(circle at 10% 20%, #0f172a, #1a237e);
+            color: #e2e8f0;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        
+        .glass-card {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 12px 40px rgba(59, 130, 246, 0.3);
+        }
+        
+        .profile-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            overflow: visible;
+        }
+        
+        .profile-frame {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid transparent;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+            animation: borderGlow 4s infinite alternate;
+        }
+        
+        @keyframes borderGlow {
+            0% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+            100% { box-shadow: 0 0 40px rgba(0, 247, 255, 0.7); }
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 10px rgba(0, 247, 255, 0.7);
+            animation: neonPulse 2s infinite alternate;
+        }
+        
+        @keyframes neonPulse {
+            0% { text-shadow: 0 0 10px rgba(0, 247, 255, 0.7); }
+            100% { text-shadow: 0 0 20px rgba(0, 247, 255, 1), 0 0 30px rgba(0, 247, 255, 0.5); }
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #3b82f6, var(--neon));
+            border-radius: 4px;
+        }
+        
+        .skill-bar {
+            height: 10px;
+            background: rgba(30, 58, 138, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, var(--neon));
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            transition: width 1.5s ease-in-out;
+        }
+        
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: rgba(59, 130, 246, 0.5);
+            border-radius: 50%;
+            animation: particleMove linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Particles -->
+    <div class="particles"></div>
+
+    <!-- Animated Navigation -->
+    <nav class="fixed w-full z-50 backdrop-blur-md bg-gradient-to-b from-blue-900/40 to-transparent">
+        <div class="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
+            <a href="#home" class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 hover:neon-text transition-all duration-500">
+                PORT<span class="text-white">FOLIO</span>
+            </a>
+            
+            <div class="hidden lg:flex space-x-12">
+                <a href="#home" class="nav-link text-blue-200 hover:text-cyan-300 hover:neon-text transition-all font-semibold text-lg">Home</a>
+                <a href="#about" class="nav-link text-blue-200 hover:text-cyan-300 hover:neon-text transition-all font-semibold text-lg">Tentang</a>
+                <a href="#education" class="nav-link text-blue-200 hover:text-cyan-300 hover:neon-text transition-all font-semibold text-lg">Pendidikan</a>
+                <a href="#skills" class="nav-link text-blue-200 hover:text-cyan-300 hover:neon-text transition-all font-semibold text-lg">Keahlian</a>
+                <a href="#contact" class="nav-link text-blue-200 hover:text-cyan-300 hover:neon-text transition-all font-semibold text-lg">Kontak</a>
+            </div>
+            
+            <button id="menu-button" class="lg:hidden text-2xl text-white focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-black/90 backdrop-blur-2xl hidden flex-col items-center justify-center space-y-10 p-8">
+        <a href="#home" class="text-3xl text-white font-bold hover:text-cyan-300 transition">Home</a>
+        <a href="#about" class="text-3xl text-white font-bold hover:text-cyan-300 transition">Tentang</a>
+        <a href="#education" class="text-3xl text-white font-bold hover:text-cyan-300 transition">Pendidikan</a>
+        <a href="#skills" class="text-3xl text-white font-bold hover:text-cyan-300 transition">Keahlian</a>
+        <a href="#contact" class="text-3xl text-white font-bold hover:text-cyan-300 transition">Kontak</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center pt-20 pb-10 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-16">
+                <div class="lg:w-1/2 space-y-8">
+                    <div class="inline-block glass-card px-6 py-3">
+                        <p class="text-sm font-bold text-cyan-300 tracking-widest">SMA GRADUATES OF 2026</p>
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight">
+                        Hai, Aku <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">DZULFIKAR ANUGRAH</span>
+                    </h1>
+                    
+                    <h2 class="text-xl md:text-2xl text-blue-300 font-medium">
+                        Lulusan SMA | Pengembang Muda | Desainer Kreatif
+                    </h2>
+                    
+                    <p class="text-lg text-blue-200 leading-relaxed">
+                        Selamat datang di portfolio digitalku! Saya seorang lulusan SMA dengan passion di bidang teknologi dan seni digital, siap melangkah ke tahap profesional yang lebih serius.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 pt-6">
+                        <a href="#contact" class="glass-card px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-xl font-bold hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 hover:translate-y-1 flex items-center">
+                            Hubungi Saya <i class="fas fa-arrow-right ml-3"></i>
+                        </a>
+                        
+                        <a href="#" class="glass-card px-8 py-4 border border-blue-500 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 hover:translate-y-1 flex items-center">
+                            <i class="fas fa-download mr-3"></i> Download CV
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2 mt-16 lg:mt-0 flex justify-center relative">
+                    <div class="profile-container floating">
+                        <div class="profile-frame">
+                            <!-- Ganti foto profilmu di sini -->
+                            <img src="images/foto-saya.jpg">
+                                 alt="Foto profesional DZULFIKAR ANUGRAH dengan background futuristik" 
+                                 class="w-full h-full object-cover" />
+                        </div>
+                        <div class="absolute -inset-6 border-4 border-blue-500/30 rounded-full animate-spin-slow" style="animation-duration: 20s;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 relative overflow-hidden">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-cyan-500/10 rounded-full filter blur-3xl"></div>
+        <div class="absolute -bottom-20 -left-40 w-80 h-80 bg-blue-500/10 rounded-full filter blur-3xl"></div>
+        
+        <div class="max-w-7xl mx-auto px-8 relative z-10">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-6">
+                    Tentang <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 neon-text">Saya</span>
+                </h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-16">
+                <div class="glass-card p-10 hover:shadow-cyan-500/20">
+                    <div class="flex items-center mb-8">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-2xl flex items-center justify-center mr-6">
+                            <i class="fas fa-user-astronaut text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Profil Pribadi</h3>
+                    </div>
+                    
+                    <p class="text-blue-200 mb-8 leading-relaxed">
+                    Saya adalah lulusan UPT SMAN NEGERI 3 LUWU dengan nilai akhir 89. Selama masa sekolah, saya aktif di berbagai kegiatan ekstrakurikuler dan organisasi, yang membantu mengembangkan keterampilan kepemimpinan dan kerja tim saya.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <p class="text-blue-300"><span class="font-bold text-white">Nama Lengkap:</span> DZULFIKAR ANUGRAH</p>
+                            <p class="text-blue-300"><span class="font-bold text-white">Tempat Tanggal Lahir:</span> LAROMPONG 14 - Agustus - 2008</p>
+                            <p class="text-blue-300"><span class="font-bold text-white">Alamat:</span> Jalan Poros Larompong, RT.2/RW.2, Lingkungan Biru, Kelurahan Larompong, Larompong</p>
+                        </div>
+                        <div>
+                            <p class="text-blue-300"><span class="font-bold text-white">Email:</span> dzlfikarrs_@gmail.com</p>
+                            <p class="text-blue-300"><span class="font-bold text-white">HP:</span> +62 812-6274-9512</p>
+                            <p class="text-blue-300"><span class="font-bold text-white">Hobi:</span> Coding, Memancing</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-10 hover:shadow-blue-500/20">
+                    <div class="flex items-center mb-8">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-2xl flex items-center justify-center mr-6">
+                            <i class="fas fa-code text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Pencapaian & Pengalaman</h3>
+                    </div>
+                    
+                    <div class="space-y-8">
+                        <div class="relative pl-10">
+                            <div class="absolute top-0 -left-2 w-5 h-5 rounded-full bg-gradient-to-r from-blue-400 to-cyan-300 shadow-md"></div>
+                            <h4 class="text-xl font-semibold text-white">Proyek web kecil</h4>
+                            <p class="text-blue-300 text-sm mb-2">2024 | KABUPATEN LUWU</p>
+                            <p class="text-blue-200">Memenangkan kompetisi coding dengan proyek desain ppt dan programing.</p>
+                        </div>
+                        
+                        <div class="relative pl-10">
+                            <div class="absolute top-0 -left-2 w-5 h-5 rounded-full bg-gradient-to-r from-blue-400 to-cyan-300 shadow-md"></div>
+                            <h4 class="text-xl font-semibold text-white">Workshop Blockchain & Crypto</h4>
+                            <p class="text-blue-300 text-sm mb-2">2023-2025 | KELAS ONLINE </p>
+                            <p class="text-blue-200">Pernah mengikuti workshop dasar blockchain dan crypto trading untuk pelajar, memperdalam pemahaman tentang teknologi masa depan.</p>
+                        </div>
+                        
+                        <div class="relative pl-10">
+                            <div class="absolute top-0 -left-2 w-5 h-5 rounded-full bg-gradient-to-r from-blue-400 to-cyan-300 shadow-md"></div>
+                            <h4 class="text-xl font-semibold text-white">blockdev academy</h4>
+                            <p class="text-blue-300 text-sm mb-2">2024 | 2025</p>
+                            <p class="text-blue-200">Belajar tentang programing,desain,analisis saham dan berkontribusi pada investasi forex atau crypto.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-20 bg-gradient-to-br from-blue-900/30 to-cyan-900/10">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-6">
+                    Riwayat <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 neon-text">Pendidikan</span>
+                </h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="relative pl-12">
+                    <!-- SMA -->
+                    <div class="relative mb-16">
+                        <div class="absolute top-0 -left-10 w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-full flex items-center justify-center shadow-lg">
+                            <i class="fas fa-graduation-cap text-white text-sm"></i>
+                        </div>
+                        <div class="glass-card p-8 hover:shadow-cyan-500/20">
+                            <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+                                <h3 class="text-2xl font-bold text-white">UPT SMAN NEGERI 3 LUWU</h3>
+                                <span class="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-full text-sm font-bold">2019 - 2022</span>
+                            </div>
+                            <p class="text-blue-300 mb-4">
+                                <i class="fas fa-star text-cyan-300 mr-2"></i> Jurusan: IPS | 87 Akhir: 90.09/100
+                            </p>
+                            <div class="space-y-4">
+                                <p class="text-blue-200 leading-relaxed">
+                                    Selama SMA, saya aktif dalam berbagai kegiatan akademik dan non-akademik yang membantu mengembangkan keterampilan saya.
+                                </p>
+                                <div class="flex flex-wrap gap-3">
+                                    <span class="px-4 py-2 bg-blue-900/50 text-blue-200 rounded-full flex items-center">
+                                        <i class="fas fa-trophy text-yellow-300 mr-2"></i> juara 2 desain web
+                                    </span>
+                                    <span class="px-4 py-2 bg-blue-900/50 text-blue-200 rounded-full flex items-center">
+                                        <i class="fas fa-users text-cyan-300 mr-2"></i> Anggota Sispala
+                                    </span>
+                                    <span class="px-4 py-2 bg-blue-900/50 text-blue-200 rounded-full flex items-center">
+                                        <i class="fas fa-futbol"></i>        futsal players
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- SMP -->
+                    <div class="relative mb-16">
+                        <div class="absolute top-0 -left-10 w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-full flex items-center justify-center shadow-lg">
+                            <i class="fas fa-school text-white text-sm"></i>
+                        </div>
+                        <div class="glass-card p-8 hover:shadow-blue-500/20">
+                            <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+                                <h3 class="text-2xl font-bold text-white">Mts.AL KHAERIYAH MURANTE</h3>
+                                <span class="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-full text-sm font-bold">2020 - 2023</span>
+                            </div>
+                            <p class="text-blue-300 mb-4">
+                                <i class="fas fa-star text-cyan-300 mr-2"></i> Nilai Akhir: [8.73/10]
+                            </p>
+                            <div class="space-y-4">
+                                <p class="text-blue-200 leading-relaxed">
+                                    Masa MTs menjadi fondasi pengembangan minat saya di bidang teknologi dan seni digital.
+                                </p>
+                                <div class="flex flex-wrap gap-3">
+                                    <span class="px-4 py-2 bg-blue-900/50 text-blue-200 rounded-full flex items-center">
+                                        <i class="fas fa-code text-pink-300 mr-2"></i> Teknologi Informasi Club
+                                    </span>
+                                    <span class="px-4 py-2 bg-blue-900/50 text-blue-200 rounded-full flex items-center">
+                                        <i class="fas fa-robot text-green-300 mr-2"></i> Robotic club
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Kursus -->
+                    <div class="relative">
+                        <div class="absolute top-0 -left-10 w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-full flex items-center justify-center shadow-lg">
+                            <i class="fas fa-certificate text-white text-sm"></i>
+                        </div>
+                        <div class="glass-card p-8 hover:shadow-cyan-500/20">
+                            <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+                                <h3 class="text-2xl font-bold text-white">Kursus & Sertifikasi</h3>
+                            </div>
+                            <div class="space-y-6">
+                                <div>
+                                    <h4 class="text-xl font-semibold text-cyan-300">Web Development</h4>
+                                    <p class="text-blue-300 mb-2">Google Developer Student Clubs (GDSC) | 2023</p>
+                                    <p class="text-blue-200">Mempelajari dasar-dasar pengembangan web modern dengan HTML, CSS, dan JavaScript.</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-semibold text-cyan-300">Desain Grafis</h4>
+                                    <p class="text-blue-300 mb-2">Skill Academy | 2022</p>
+                                    <p class="text-blue-200">Belajar prinsip desain dan tools seperti Photoshop untuk membuat karya visual.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-6">
+                    Keahlian <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 neon-text">Saya</span>
+                </h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-12">
+                <!-- Technical Skills -->
+                <div class="glass-card p-8 hover:shadow-cyan-500/20">
+                    <div class="flex items-center mb-8">
+                        <div class="w-14 h-14 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center mr-6">
+                            <i class="fas fa-code text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Teknikal</h3>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-3">
+                                <span class="font-medium text-blue-200">HTML/CSS</span>
+                                <span class="text-cyan-300">95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-3">
+                                <span class="font-medium text-blue-200">JavaScript</span>
+                                <span class="text-cyan-300">85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-3">
+                                <span class="font-medium text-blue-200">UI/UX Design</span>
+                                <span class="text-cyan-300">80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-3">
+                                <span class="font-medium text-blue-200">Python</span>
+                                <span class="text-cyan-300">75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Soft Skills -->
+                <div class="glass-card p-8 hover:shadow-blue-500/20">
+                    <div class="flex items-center mb-8">
+                        <div class="w-14 h-14 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center mr-6">
+                            <i class="fas fa-brain text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Soft Skills</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-blue-900/30 p-4 rounded-xl border border-blue-700/30 hover:border-cyan-400/50 transition-all">
+                            <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center mb-3">
+                                <i class="fas fa-users text-white"></i>
+                            </div>
+                            <h4 class="font-bold text-white mb-1">Teamwork</h4>
+                            <p class="text-blue-300 text-sm">Berkolaborasi efektif dalam tim</p>
+                        </div>
+                        
+                        <div class="bg-blue-900/30 p-4 rounded-xl border border-blue-700/30 hover:border-cyan-400/50 transition-all">
+                            <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center mb-3">
+                                <i class="fas fa-lightbulb text-white"></i>
+                            </div>
+                            <h4 class="font-bold text-white mb-1">Kreativitas</h4>
+                            <p class="text-blue-300 text-sm">Solusi inovatif dan ide segar</p>
+                        </div>
+                        
+                        <div class="bg-blue-900/30 p-4 rounded-xl border border-blue-700/30 hover:border-cyan-400/50 transition-all">
+                            <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center mb-3">
+                                <i class="fas fa-comments text-white"></i>
+                            </div>
+                            <h4 class="font-bold text-white mb-1">Komunikasi</h4>
+                            <p class="text-blue-300 text-sm">Menyampaikan ide dengan jelas</p>
+                        </div>
+                        
+                        <div class="bg-blue-900/30 p-4 rounded-xl border border-blue-700/30 hover:border-cyan-400/50 transition-all">
+                            <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center mb-3">
+                                <i class="fas fa-tasks text-white"></i>
+                            </div>
+                            <h4 class="font-bold text-white mb-1">Manajemen Waktu</h4>
+                            <p class="text-blue-300 text-sm">Penyelesaian tepat waktu</p>
+                        </div>
+                        
+                        <div class="bg-blue-900/30 p-4 rounded-xl border border-blue-700/30 hover:border-cyan-400/50 transition-all">
+                            <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center mb-3">
+                                <i class="fas fa-fire-alt text-white"></i>
+                            </div>
+                            <h4 class="font-bold text-white mb-1">Semangat Belajar</h4>
+                            <p class="text-blue-300 text-sm">Selalu ingin tahu hal baru</p>
+                        </div>
+                        
+                        <div class="bg-blue-900/30 p-4 rounded-xl border border-blue-700/30 hover:border-cyan-400/50 transition-all">
+                            <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center mb-3">
+                                <i class="fas fa-handshake text-white"></i>
+                            </div>
+                            <h4 class="font-bold text-white mb-1">Kerja Keras</h4>
+                            <p class="text-blue-300 text-sm">Dedikasi untuk hasil terbaik</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tools & Languages -->
+                <div class="glass-card p-8 hover:shadow-cyan-500/20">
+                    <div class="flex items-center mb-8">
+                        <div class="w-14 h-14 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center mr-6">
+                            <i class="fas fa-cogs text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Tools & Bahasa</h3>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="text-lg font-semibold text-white mb-4">Tools yang Dikuasai</h4>
+                            <div class="flex flex-wrap gap-3 mb-6">
+                                <span class="px-4 py-2 bg-blue-900/40 text-blue-200 rounded-full flex items-center">
+                                    <i class="fab fa-figma text-purple-300 mr-2"></i> Figma
+                                </span>
+                                <span class="px-4 py-2 bg-blue-900/40 text-blue-200 rounded-full flex items-center">
+                                    <i class="fab fa-github text-white mr-2"></i> GitHub
+                                </span>
+                                <span class="px-4 py-2 bg-blue-900/40 text-blue-200 rounded-full flex items-center">
+                                    <i class="fab fa-adobe text-red-400 mr-2"></i> Photoshop
+                                </span>
+                                <span class="px-4 py-2 bg-blue-900/40 text-blue-200 rounded-full flex items-center">
+                                    <i class="fas fa-code text-blue-300 mr-2"></i> VS Code
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-semibold text-white mb-4">Bahasa</h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-blue-200">Bahasa Indonesia</span>
+                                        <span class="text-cyan-300">Native</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-blue-200">English</span>
+                                        <span class="text-cyan-300">Advanced</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 40%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-semibold text-white mb-4">Hobi & Minat</h4>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="px-4 py-2 bg-blue-900/40 text-blue-200 rounded-full">
+                                    Programing
+                                </span>
+                                <span class="px-4 py-2 bg-blue-900/40 text-blue-200 rounded-full">
+                                    Desain
+                                </span>
+                                <span class="px-4 py-2 bg-blue-900/40 text-blue-200 rounded-full">
+                                    Game
+                                </span>
+                                <span class="px-4 py-2 bg-blue-900/40 text-blue-200 rounded-full">
+                                    Futsal
+                                </span>
+                                <span class="px-4 py-2 bg-blue-900/40 text-blue-200 rounded-full">
+                                    Memancing
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Showcase (Hidden by Default) -->
+    <section id="projects" class="py-20 bg-gradient-to-b from-blue-900/40 to-transparent hidden">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-6">
+                    Proyek <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 neon-text">Terbaru</span>
+                </h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="glass-card group overflow-hidden hover:shadow-cyan-500/20">
+                    <div class="relative h-60 overflow-hidden">
+                        <img src="https://placehold.co/800x600" alt="Screenshot proyek website portofolio dengan desain modern" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">Personal Website</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs">HTML/CSS</span>
+                                <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs">JavaScript</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">Website Portofolio</h3>
+                        <p class="text-blue-300 mb-4">Website pribadi dengan desain responsif dan efek modern</p>
+                        <a href="#" class="inline-flex items-center text-cyan-300 hover:text-cyan-200 transition font-medium">
+                            Lihat Proyek <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="glass-card group overflow-hidden hover:shadow-blue-500/20">
+                    <div class="relative h-60 overflow-hidden">
+                        <img src="https://placehold.co/800x600" alt="Mockup aplikasi manajemen tugas dengan antarmuka user friendly" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">Task Manager</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs">JavaScript</span>
+                                <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs">Local Storage</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">Aplikasi Manajemen Tugas</h3>
+                        <p class="text-blue-300 mb-4">Aplikasi untuk mengorganisir aktivitas sehari-hari</p>
+                        <a href="#" class="inline-flex items-center text-cyan-300 hover:text-cyan-200 transition font-medium">
+                            Lihat Proyek <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="glass-card group overflow-hidden hover:shadow-cyan-500/20">
+                    <div class="relative h-60 overflow-hidden">
+                        <img src="https://placehold.co/800x600" alt="Desain poster kampanye lingkungan dengan ilustrasi kreatif" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">Eco Campaign</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs">Photoshop</span>
+                                <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs">Illustrator</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">Kampanye Lingkungan</h3>
+                        <p class="text-blue-300 mb-4">Poster digital untuk kampanye pelestarian alam</p>
+                        <a href="#" class="inline-flex items-center text-cyan-300 hover:text-cyan-200 transition font-medium">
+                            Lihat Proyek <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 relative overflow-hidden">
+        <div class="absolute -top-40 -left-40 w-80 h-80 bg-blue-500/10 rounded-full filter blur-3xl"></div>
+        <div class="absolute -bottom-20 -right-40 w-80 h-80 bg-cyan-500/10 rounded-full filter blur-3xl"></div>
+        
+        <div class="max-w-7xl mx-auto px-8 relative z-10">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-6">
+                    Hubungi <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 neon-text">Saya</span>
+                </h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-16">
+                <div class="glass-card p-10 hover:shadow-cyan-500/20">
+                    <h3 class="text-2xl font-bold text-white mb-8">Informasi Kontak</h3>
+                    
+                    <div class="space-y-8">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center mr-6 mt-1">
+                                <i class="fas fa-envelope text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white mb-1">Email</h4>
+                                <a href="mailto:email@contoh.com" class="text-cyan-300 hover:text-cyan-200 transition">dzlfikarrs_@gmail.com</a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center mr-6 mt-1">
+                                <i class="fas fa-phone-alt text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white mb-1">Telepon</h4>
+                                <a href="tel:+6281234567890" class="text-cyan-300 hover:text-cyan-200 transition">+62 812-6274-9512</a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center mr-6 mt-1">
+                                <i class="fas fa-map-marker-alt text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white mb-1">Lokasi</h4>
+                                <p class="text-blue-300">Larompomg, Indonesia</p>
+                            </div>
+                        </div>
+                        
+                        <div class="pt-6">
+                            <h4 class="text-lg font-bold text-white mb-6">Sosial Media</h4>
+                            <div class="flex space-x-6">
+                                <a href="https://www.instagram.com/dzlfikarrs_" target="_blank"
+   class="w-12 h-12 bg-blue-900/40 rounded-xl flex items-center justify-center text-blue-300 
+          hover:text-white hover:bg-gradient-to-br from-pink-600 to-purple-500 transition-all duration-300 
+          hover:shadow-lg hover:shadow-pink-500/30 border border-pink-700/30 hover:border-pink-300/40">
+   <i class="fab fa-instagram text-xl"></i>
+</a>
+                                <a href="https://wa.me/6281262749512" target="_blank"
+   class="w-12 h-12 bg-blue-900/40 rounded-xl flex items-center justify-center text-blue-300 hover:text-white hover:bg-gradient-to-br from-green-600 to-emerald-500 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/30 border border-green-700/30 hover:border-green-300/40">
+   <i class="fab fa-whatsapp text-xl"></i>
+</a>
+                                <a href="https://www.tiktok.com/@dzulfikaranugrah9" target="_blank"
+   class="w-12 h-12 bg-blue-900/40 rounded-xl flex items-center justify-center text-blue-300 hover:text-white hover:bg-gradient-to-br from-blue-600 to-cyan-500 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/30 border border-blue-700/30 hover:border-cyan-300/40">
+   <i class="fab fa-tiktok text-xl"></i>
+</a>
+                                <a href="https://github.com/dzlfikarrs_" target="_blank"
+   class="text-gray-400 hover:text-white text-2xl transition-all duration-300 hover:scale-110 hover:drop-shadow-[0_0_10px_#60a5fa]">
+   <i class="fab fa-github"></i>
+</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-10 hover:shadow-blue-500/20">
+                    <h3 class="text-2xl font-bold text-white mb-8">Kirim Pesan</h3>
+                    
+                    <form class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-blue-200 mb-2 font-medium">Nama Lengkap</label>
+                            <input type="text" id="name" class="w-full px-5 py-3 bg-blue-900/40 border border-blue-700/50 rounded-xl text-white placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" placeholder="Masukkan nama Anda">
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-blue-200 mb-2 font-medium">Alamat Email</label>
+                            <input type="email" id="email" class="w-full px-5 py-3 bg-blue-900/40 border border-blue-700/50 rounded-xl text-white placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" placeholder="email@contoh.com">
+                        </div>
+                        
+                        <div>
+                            <label for="subject" class="block text-blue-200 mb-2 font-medium">Subjek</label>
+                            <input type="text" id="subject" class="w-full px-5 py-3 bg-blue-900/40 border border-blue-700/50 rounded-xl text-white placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" placeholder="Subjek pesan Anda">
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-blue-200 mb-2 font-medium">Pesan</label>
+                            <textarea id="message" rows="5" class="w-full px-5 py-3 bg-blue-900/40 border border-blue-700/50 rounded-xl text-white placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" placeholder="Tulis pesan Anda di sini..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/30 flex items-center justify-center">
+                            <i class="fas fa-paper-plane mr-3"></i> Kirim Pesan
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 bg-gradient-to-b from-blue-900/40 to-blue-900/80 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="mb-6 md:mb-0">
+                    <a href="#" class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
+                        PORT<span class="text-white">FOLIO</span>
+                    </a>
+                    <p class="text-blue-300 mt-2">© 2026 dzlfikarr. All rights reserved.</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="text-blue-300 hover:text-cyan-300 transition text-xl">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-blue-300 hover:text-cyan-300 transition text-xl">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="#" class="text-blue-300 hover:text-cyan-300 transition text-xl">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="text-blue-300 hover:text-cyan-300 transition text-xl">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuButton = document.getElementById('menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex');
+        });
+        
+        // Close mobile menu when clicking on links
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('flex');
+            });
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Form submission handling
+        const contactForm = document.querySelector('form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Terima kasih atas pesannya! Saya akan segera menghubungi Anda kembali.');
+                this.reset();
+            });
+        }
+        
+        // Create particles
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.querySelector('.particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 1px and 3px
+                const size = Math.random() * 2 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random opacity
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation duration between 10s and 30s
+                const duration = Math.random() * 20 + 10;
+                particle.style.animation = `particleMove ${duration}s linear infinite`;
+                
+                // Random delay
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                // Alternate between blue and cyan colors
+                if (Math.random() > 0.5) {
+                    particle.style.backgroundColor = 'rgba(59, 130, 246, 0.5)';
+                } else {
+                    particle.style.backgroundColor = 'rgba(0, 247, 255, 0.5)';
+                }
+                
+                particlesContainer.appendChild(particle);
+            }
+            
+            // Add the particleMove keyframes
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @keyframes particleMove {
+                    0% {
+                        transform: translate(0, 0);
+                    }
+                    50% {
+                        transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px);
+                    }
+                    100% {
+                        transform: translate(0, 0);
+                    }
+                }
+                
+                @keyframes spin-slow {
+                    0% {
+                        transform: rotate(0deg);
+                    }
+                    100% {
+                        transform: rotate(360deg);
+                    }
+                }
+                
+                .animate-spin-slow {
+                    animation: spin-slow 20s linear infinite;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Animate skill bars on scroll
+            const skillBars = document.querySelectorAll('.skill-progress');
+            
+            const animateSkills = () => {
+                skillBars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0';
+                    
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                });
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateSkills();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            document.querySelectorAll('#skills').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
